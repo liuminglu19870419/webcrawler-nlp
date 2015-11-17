@@ -1,4 +1,8 @@
 '''
+<<<<<<< HEAD
+=======
+
+>>>>>>> afff76aa527c085d9c54150e672e98c948d9a940
 @author: mingliu
 '''
 import copy
