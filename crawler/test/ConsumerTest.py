@@ -64,5 +64,5 @@ if __name__ == '__main__':
 #     for consumer in consumerList:
 #         Process(target=consumer.start, args=(LOGGING)).start();
 
-    Process(target=producerList[0].start, args=(LOGGING)).start();
+#     Process(target=producerList[0].start, args=(LOGGING)).start();
     Process(target=consumerList[0].start, args=(LOGGING)).start();
