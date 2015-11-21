@@ -8,10 +8,11 @@ Created on 2015年11月17日
 from selenium import webdriver
 
 from extractor.BaseExtractor import BaseExtractor
-from config.CommonConfig import PHANTOMJS_PATH
+from config.CommonConfig import PHANTOMJS_PATH, NEWS_URL_QUEUE
 from config.LogConfig import LOGGER
 from utils.dbmysql import MysqlClient
 import traceback
+from extractor.NewsPublisher import NewsPublisher
 
 class NetEaseExtractor(BaseExtractor):
     def __init__(self, config):
@@ -19,6 +20,7 @@ class NetEaseExtractor(BaseExtractor):
         self.tag = config.get("tag", "defaut tag")
         self.sub_tag = config.get("sub_tag", None)
         self.mysql_client = MysqlClient()
+        self.news_publisher = NewsPublisher(NEWS_URL_QUEUE)
 
     def extract_links(self):
         try:
@@ -36,6 +38,8 @@ class NetEaseExtractor(BaseExtractor):
             
             i = 0 #page count
             stop_flag = True #
+            republishdThre = 5 #find 5 duplicated article stop extractor urls
+            republishedCount = 0
 
             while i < 10 and stop_flag:
 
@@ -45,23 +49,29 @@ class NetEaseExtractor(BaseExtractor):
                 link_list = link_content.find_elements_by_css_selector("div[class=\"list-item clearfix\"]")
     
                 for elem in link_list:
-                    title = elem.find_element_by_tag_name("h2")
+                    article = elem.find_element_by_tag_name("h2")
+                    title = article.text # article title
                     if title not in list:
-                        print title.text # article title
-                        LOGGER.debug("article title %s"%(title.text))
+                        LOGGER.debug("article title %s"%(title))
+                        print title
                         
-                        url = title.find_element_by_tag_name("a").get_attribute("href")
+                        url = article.find_element_by_tag_name("a").get_attribute("href")
                         LOGGER.info("url:%s"%(url))
 
                         url_is_exists = self.mysql_client.getOne("select * from published_url where url=%s", (url, ))
                         if url_is_exists is False:
-                            self.mysql_client.insertOne("insert into published_url(url, tag, sub_tag) values(%s, %s, %s)",  (url, self.tag, self.sub_tag));
-#                             content = elem.find_element_by_class_name("item-Text")
+                            
+                            abstract = elem.find_element_by_class_name("item-Text").text
                             # published the url msg to mq
+                            msg = self.formatMsg(url, self.tag, self.sub_tag, title, abstract)
+                            self.news_publisher.process(msg)
+                            self.mysql_client.insertOne("insert into published_url(url, tag, sub_tag) values(%s, %s, %s)",  (url, self.tag, self.sub_tag));
 
                         else: # else the remain urls were already published
-                            stop_flag = False
-                            break
+                            republishedCount += 1
+                            if republishedCount >= republishdThre:
+                                stop_flag = False
+                                break
                         list.append(title)
                     else:
                         continue

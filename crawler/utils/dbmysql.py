@@ -189,12 +189,13 @@ class MysqlClient(object):
             self.end('rollback');
         self._cursor.close()
         self._conn.close()
+
 if __name__ == "__main__":
     client = MysqlClient()
-#     cursor = client.getAll("select * from user")
-    cursor = client.getOne("select * from published_url where url = %s", ('test', ))
+    cursor = client.getAll("select * from published_url")
+#     cursor = client.getOne("select create_time from published_url where url = %s", ('test', ))
     print cursor
-    cursor = client.getOne("select * from published_url where url=%s", ('http.//test2', ))
-    print cursor
-#     result = client.insertOne("insert into published_url(url, tag, sub_tag) values(%s, %s, %s)",  ("test2", "tag", "sub_tag"))
+#     cursor = client.getOne("select * from published_url where url=%s", ('http.//test2', ))
+#     print cursor
+#     result = client.insertOne("insert into published_url(url, tag, sub_tag) values(%s, %s, %s)",  ("test3", "tag", "sub_tag"))
 #     print result

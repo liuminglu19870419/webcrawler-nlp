@@ -7,4 +7,5 @@ Created on 2015年11月18日
 
 LOG_PATH = "./"
 
-PHANTOMJS_PATH= "/home/lml/phantomjs/bin/phantomjs"
+PHANTOMJS_PATH = "/home/lml/phantomjs/bin/phantomjs"
+NEWS_URL_QUEUE = "news_article"

@@ -54,7 +54,7 @@ if __name__ == '__main__':
     num = 10
     for i in range(num):
         consumer = Consumer()
-        consumer.setInPutMessage('test_message' + str(i))
+        consumer.set_inputmessage('test_message' + str(i))
         consumerList.append(consumer)
     for i in range(num):
         producer = Producer('test_message' + str(i))
