@@ -29,6 +29,7 @@ Config.DBPWD = "lml19870419"
 Config.DBNAME = "test"
 Config.use_unicode=False
 Config.DBCHAR="utf8"
+
 class MysqlClient(object):
     """
         MYSQL数据库对象，负责产生数据库连接 , 此类中的连接采用连接池实现
@@ -190,5 +191,10 @@ class MysqlClient(object):
         self._conn.close()
 if __name__ == "__main__":
     client = MysqlClient()
-    cursor = client.getAll("select * from user")
+#     cursor = client.getAll("select * from user")
+    cursor = client.getOne("select * from published_url where url = %s", ('test', ))
     print cursor
+    cursor = client.getOne("select * from published_url where url=%s", ('http.//test2', ))
+    print cursor
+#     result = client.insertOne("insert into published_url(url, tag, sub_tag) values(%s, %s, %s)",  ("test2", "tag", "sub_tag"))
+#     print result
