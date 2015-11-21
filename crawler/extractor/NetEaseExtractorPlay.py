@@ -14,7 +14,7 @@ from utils.dbmysql import MysqlClient
 import traceback
 from extractor.NewsPublisher import NewsPublisher
 
-class NetEaseExtractor(BaseExtractor):
+class NetEaseExtractorPlay(BaseExtractor):
     def __init__(self, config):
         self.url = config.get("url", "")
         self.tag = config.get("tag", "defaut tag")
@@ -25,8 +25,12 @@ class NetEaseExtractor(BaseExtractor):
     def extract_links(self):
         try:
             driver = webdriver.PhantomJS(PHANTOMJS_PATH)
+#             driver.set_page_load_timeout(10)
             LOGGER.debug("start extractor from %s" %(self.url, ))
-            driver.get(self.url)
+            try:
+                driver.get(self.url)
+            except Exception, e:
+                pass
             
             #scroll bar set from bottom to top, make the page load all
             js = "var q=document.documentElement.scrollTop=10000"
@@ -46,23 +50,23 @@ class NetEaseExtractor(BaseExtractor):
                 # find the article title section
 #                 link_content = driver.find_element_by_css_selector("div[class=\"tab-con current\"]")
                 # find the article titles
-                link_list = driver.find_elements_by_css_selector("div[class=\"list-item clearfix\"]")
+                link_list = driver.find_elements_by_css_selector("div[class=\"m-collist clearfix\"]")
     
                 for elem in link_list:
-                    article = elem.find_element_by_tag_name("h2")
+                    article = elem.find_element_by_tag_name("dt")
                     title = article.text # article title
                     if title not in list:
                         LOGGER.debug("article title %s"%(title))
                         print title
                         
-                        url = article.find_element_by_tag_name("a").get_attribute("href")
+                        url = elem.find_element_by_tag_name("a").get_attribute("href")
                         LOGGER.info("url:%s"%(url))
 
                         url_is_exists = self.mysql_client.getOne("select * from published_url where url=%s", (url, ))
                         if url_is_exists is False:
                             
 #                             abstract = elem.find_element_by_class_name("item-Text").text
-                            abstract = elem.find_element_by_tag_name("p").text
+                            abstract = elem.find_element_by_tag_name("dd").text
                             # published the url msg to mq
                             msg = self.formatMsg(url, self.tag, self.sub_tag, title, abstract)
                             self.news_publisher.process(msg)
@@ -78,7 +82,7 @@ class NetEaseExtractor(BaseExtractor):
                         continue
 
                 # load the next page
-                next_page = driver.find_element_by_id("add-more-id")
+                next_page = driver.find_element_by_class_name("m-collist-more")
                 next_page.click()
                 driver.implicitly_wait(5)
                 i += 1

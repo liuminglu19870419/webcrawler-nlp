@@ -14,7 +14,7 @@ from utils.dbmysql import MysqlClient
 import traceback
 from extractor.NewsPublisher import NewsPublisher
 
-class NetEaseExtractor(BaseExtractor):
+class NetEaseExtractorA(BaseExtractor):
     def __init__(self, config):
         self.url = config.get("url", "")
         self.tag = config.get("tag", "defaut tag")
@@ -78,7 +78,7 @@ class NetEaseExtractor(BaseExtractor):
                         continue
 
                 # load the next page
-                next_page = driver.find_element_by_id("add-more-id")
+                next_page = driver.find_element_by_class_name("list-page").find_element_by_class_name("next")
                 next_page.click()
                 driver.implicitly_wait(5)
                 i += 1

@@ -5,18 +5,64 @@ Created on 2015年11月18日
 @author: lml
 '''
 from extractor.NetEaseExtractor import NetEaseExtractor
+from extractor.NetEaseExtractorA import NetEaseExtractorA
 from utils.daemon import Daemon, daemon_main
 import os
 import sys
 from config.LogConfig import LOGGER
+from extractor.NetEaseExtractorTech import NetEaseExtractorTech
+from extractor.NetEaseExtractorPlay import NetEaseExtractorPlay
+from extractor.NetEaseExtractorMili import NetEaseExtractorMili
 
-extractor_source_url_config = [{
-         "url": "http://news.163.com/world/",
-         "extractor": NetEaseExtractor,
+extractor_source_url_config = [
+#         {
+#          "url": "http://news.163.com/world/",
+#          "extractor": NetEaseExtractor,
+#          "tag":"163",
+#          "sub_tag":"world",
+#          "period": 10
+#          },
+#                                 
+#         {
+#          "url": "http://news.163.com/domestic/",
+#          "extractor": NetEaseExtractorA,
+#          "tag":"163",
+#          "sub_tag":"domestic",
+#          "period": 10
+#          },
+#                                 
+#         {
+#          "url": "http://news.163.com/shehui/",
+#          "extractor": NetEaseExtractorA,
+#          "tag":"163",
+#          "sub_tag":"shehui",
+#          "period": 10
+#          },
+# 
+#         {
+#          "url": "http://tech.163.com/latest",
+#          "extractor": NetEaseExtractorTech,
+#          "tag":"163",
+#          "sub_tag":"tech",
+#          "period": 10
+#          },
+#          {
+#          "url": "http://play.163.com/",
+#          "extractor": NetEaseExtractorPlay,
+#          "tag":"163",
+#          "sub_tag":"play",
+#          "period": 10
+#          },
+
+         {
+         "url": "http://war.163.com/special/millatestnews/",
+         "extractor": NetEaseExtractorMili,
          "tag":"163",
-         "sub_tag":"world",
+         "sub_tag":"mili",
          "period": 10
-         }, ]
+         },
+     ]
+
 
 class Extractor(Daemon):
     
