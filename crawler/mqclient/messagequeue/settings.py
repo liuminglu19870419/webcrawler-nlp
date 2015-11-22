@@ -6,6 +6,7 @@ Created on Dec 14, 2012
 import os
 from logging.config import dictConfig
 from ConfigParser import SafeConfigParser
+from config.CommonConfig import HOST_IP
 
 LOGGING = {
     'version': 1,
@@ -66,7 +67,7 @@ LOGGING = {
     }
 }
 
-RABBITMQSERVER_IP = "192.168.1.101"
+RABBITMQSERVER_IP = HOST_IP
 RABBITMQSERVER_PORT = 5672
 SECTION = 'mqclient'
 def _load_config():

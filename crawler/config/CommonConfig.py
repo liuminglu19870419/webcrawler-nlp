@@ -9,3 +9,4 @@ LOG_PATH = "/home/lml/log/"
 
 PHANTOMJS_PATH = "/home/lml/phantomjs/bin/phantomjs"
 NEWS_URL_QUEUE = "news_article"
+HOST_IP = "192.168.1.101"

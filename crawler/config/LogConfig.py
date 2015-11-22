@@ -56,7 +56,7 @@ LOGGING = {
             'level':'DEBUG',
             'class':'logging.handlers.TimedRotatingFileHandler',
             'formatter': 'simple',
-            'filename': LOG_PATH + '/extractor.log',
+            'filename': LOG_PATH + '/crawler.log',
             'when': 'D',
             'backupCount' : 30
         },
@@ -64,7 +64,7 @@ LOGGING = {
             'level':'DEBUG',
             'class':'logging.handlers.RotatingFileHandler',
             'formatter': 'message_only',
-            'filename': LOG_PATH + '/extractor_perf.log',
+            'filename': LOG_PATH + '/crawler_perf.log',
             'maxBytes': 30 * 1024 * 1024,  # 30MB
             'backupCount' : 30
         },
@@ -72,7 +72,7 @@ LOGGING = {
             'level':'ERROR',
             'class':'logging.handlers.TimedRotatingFileHandler',
             'formatter': 'detail',
-            'filename': LOG_PATH + '/extractor.err',
+            'filename': LOG_PATH + '/crawler.err',
             'when': 'D',
             'backupCount' : 30
         },

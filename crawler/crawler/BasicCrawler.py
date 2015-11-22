@@ -7,7 +7,7 @@ Created on 2015年11月22日
 import os
 from mqclient.messagequeue.MessageHandler import MessageHandler
 from _ast import Sub
-from config.CommonConfig import PHANTOMJS_PATH
+from config.CommonConfig import PHANTOMJS_PATH, HOST_IP
 from selenium import webdriver
 from config.LogConfig import LOGGER_CRAWLER as LOGGER
 import traceback
@@ -54,7 +54,7 @@ class  BasicArticleCrawler(object):
     
     def __init__(self):
         self.mysql_client = MysqlClient()
-        self.mongo_client = MongoClient("192.168.1.101", 27017)
+        self.mongo_client = MongoClient(HOST_IP, 27017)
     
     def insertSuccess(self, msg):
         try:
