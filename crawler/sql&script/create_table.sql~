@@ -1,0 +1,11 @@
+CREATE TABLE if not exists`test`.`published_url` (
+  `url` VARCHAR(1024) BINARY NOT NULL,
+  `create_time` TIMESTAMP NOT NULL,
+  `tag` VARCHAR(255) NOT NULL,
+  `sub_tag` VARCHAR(255) NOT NULL,
+  `id` INTEGER UNSIGNED NOT NULL,
+  UNIQUE INDEX `url_index` USING HASH()
+)
+ENGINE = MyISAM
+CHARACTER SET utf8 COLLATE utf8mb4_general_ci;
+
