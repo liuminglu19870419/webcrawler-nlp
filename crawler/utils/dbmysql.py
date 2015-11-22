@@ -137,7 +137,10 @@ class MysqlClient(object):
         """
         self._cursor.execute("SELECT @@IDENTITY AS id")
         result = self._cursor.fetchall()
-        return result[0]['id']
+        if len(result) > 0:
+            return result[0]['id']
+        else:
+            return 0
  
     def __query(self,sql,param=None):
         if param is None:
