@@ -209,7 +209,7 @@ class RabbitMQBlockingProxy(object):
             except pika.exceptions.AMQPChannelError:
                 pass
         self._channel.exchange_declare(exchange=self._exchange,\
-                            type=self._exchange_type, durable=self._durable)
+                            type=self._exchange_type, durable=True)
 
         if self._priority_level <= 0:
             raise MQError("priority_level should be >= 1")
@@ -269,7 +269,7 @@ class RabbitMQBlockingProxy(object):
         if x_message_ttl is not None:
             arguments["x-message-ttl"] = x_message_ttl
 
-        self._channel.queue_declare(queue=queue_name, durable=durable, \
+        self._channel.queue_declare(queue=queue_name, durable=True, \
                                     exclusive=exclusive, \
                                     auto_delete=auto_delete, \
                                     arguments=arguments)
@@ -442,7 +442,7 @@ class RabbitMQBlockingProxy(object):
                 try:
                     callback_queue = self._rpc_queue_pool.get(False)
                 except Queue.Empty:
-                    result = self._channel.queue_declare(exclusive=False, auto_delete=False, arguments={"x-expires": self._rpc_queue_expires})
+                    result = self._channel.queue_declare(exclusive=False, auto_delete=False, durable=True, arguments={"x-expires": self._rpc_queue_expires})
                     callback_queue = result.method.queue
                     self._rpc_queue_count_lock.acquire()
                     self._rpc_queue_count += 1
