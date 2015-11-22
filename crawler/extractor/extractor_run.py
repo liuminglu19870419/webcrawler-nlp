@@ -4,12 +4,18 @@ Created on 2015年11月18日
 
 @author: lml
 '''
+
+import sys
+import traceback
+sys.path.append("../")
+sys.path.append("../../")
+sys.path.append("/home/lml/webcrawler/webcrawler-nlp/crawler/")
+
 from extractor.NetEaseExtractor import NetEaseExtractor
 from extractor.NetEaseExtractorA import NetEaseExtractorA
 from utils.daemon import Daemon, daemon_main
 import os
-import sys
-from config.LogConfig import LOGGER
+from config.LogConfig import LOGGER_EXTRACTOR as LOGGER
 from extractor.NetEaseExtractorTech import NetEaseExtractorTech
 from extractor.NetEaseExtractorPlay import NetEaseExtractorPlay
 from extractor.NetEaseExtractorMili import NetEaseExtractorMili
@@ -80,10 +86,11 @@ class Extractor(Daemon):
                 extractor = elem["extractor"](elem)
                 extractor.extract_links()
         except Exception, e:
-            pass
+            LOGGER.error(traceback.format_exc())
         finally:
-            pass
+            LOGGER.info("finished extractor")
+
 if __name__ == '__main__':
-#     daemon_main(Extractor, './ ', sys.argv)
-    extractor = Extractor("./")
-    extractor.run()
+    daemon_main(Extractor, './ ', sys.argv)
+#     extractor = Extractor("./")
+#     extractor.run()

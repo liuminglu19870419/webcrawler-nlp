@@ -1,8 +1,4 @@
 '''
-<<<<<<< HEAD
-=======
-
->>>>>>> afff76aa527c085d9c54150e672e98c948d9a940
 @author: mingliu
 '''
 import copy
@@ -108,7 +104,7 @@ class HandlerBase(object):
             # set level of queue handler to DEBUG to accept all logs
             root.setLevel(original_logging.DEBUG)
             # after this, all log will be put into the queue use QueueHandler
-        logging.info("subprocess for handler started", self._handler_key)
+#         logging.info("subprocess for handler started", self._handler_key)
         self._stop_event = stop_event
         self._connection.set_stop_condition(self._stop_condition)
 

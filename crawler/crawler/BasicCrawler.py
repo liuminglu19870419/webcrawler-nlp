@@ -9,9 +9,8 @@ from mqclient.messagequeue.MessageHandler import MessageHandler
 from _ast import Sub
 from config.CommonConfig import PHANTOMJS_PATH
 from selenium import webdriver
-from config.LogConfig import LOGGER
+from config.LogConfig import LOGGER_CRAWLER as LOGGER
 import traceback
-from extractor.NetEaseExtractor import NetEaseExtractor
 from selenium.common.exceptions import TimeoutException
 from utils.dbmysql import MysqlClient
 from pymongo.mongo_client import MongoClient
@@ -41,7 +40,7 @@ class CrawlerMessageHandler(MessageHandler):
         url, title, tag, sub_tag, abstract = self.pharseMsg(msg)
         crawler = self.crawlerMapper[tag][sub_tag]
         crawler.crawlArticle(msg)
-        print '[Consumer%d] received message: %s' % (os.getpid(), msg)     
+#         print '[Consumer%d] received message: %s' % (os.getpid(), msg)     
     
     def pharseMsg(self, msg):
         url = msg["url"]
@@ -58,14 +57,26 @@ class  BasicArticleCrawler(object):
         self.mongo_client = MongoClient("192.168.1.101", 27017)
     
     def insertSuccess(self, msg):
-        self.mysql_client.insertOne("insert into successed_url(url, tag, sub_tag) values(%s, %s, %s)",  (msg["url"], msg["tag"], msg["sub_tag"]));
+        try:
+            self.mysql_client.insertOne("insert into successed_url(url, tag, sub_tag) values(%s, %s, %s)",  (msg["url"], msg["tag"], msg["sub_tag"]));
+            LOGGER.debug("insert successed_url %s" %(str(msg), ))
+        except Exception, e:
+            LOGGER.error(traceback.format_exc())
     
     def insertFailed(self, msg):
-        self.mysql_client.insertOne("insert into failed_url(url, tag, sub_tag) values(%s, %s, %s)",  (msg["url"], msg["tag"], msg["sub_tag"]));
+        try:
+            self.mysql_client.insertOne("insert into failed_url(url, tag, sub_tag) values(%s, %s, %s)",  (msg["url"], msg["tag"], msg["sub_tag"]));
+            LOGGER.debug("insert failed_url %s" %(str(msg), ))
+        except Exception, e:
+            LOGGER.error(traceback.format_exc())
     
     def insertMongodb(self, msg):
-        collection = self.mongo_client.tdb.tcoll
-        collection.save(msg)
+        try:
+            collection = self.mongo_client.tdb.tcoll
+            collection.save(msg)
+            LOGGER.debug("insert into mongo: %s@%s" %(msg["title"], msg["url"]))
+        except Exception, e:
+            LOGGER.error(traceback.format_exc())
     
     def crawlArticle(self, msg):
         pass
@@ -95,8 +106,9 @@ class NetEaseNewsCrawler(BasicArticleCrawler):
                 self.insertSuccess(msg)
             except Exception, e:
                 LOGGER.error(traceback.format_exc())
-                LOGGER.error("url: %s" %(msg["url"]))
+                LOGGER.error("url: %s" %(msg["url"],))
                 self.insertFailed(msg)
+                driver.quit()
   
         except TimeoutException, e:
             #scroll bar set from bottom to top, make the page load all
@@ -114,11 +126,12 @@ class NetEaseNewsCrawler(BasicArticleCrawler):
             except Exception, e:
                 self.insertFailed(msg)
                 LOGGER.error(traceback.format_exc())
-                LOGGER.error("url: %s" %(msg["url"]))
+                LOGGER.error("url: %s" %(msg["url"], ))
+                driver.quit()
         except Exception, e:
             self.insertFailed(msg)
             LOGGER.error(traceback.format_exc())
-            LOGGER.error("url: %s" %(msg["url"]))
+            LOGGER.error("url: %s" %(msg["url"], ))
         finally:
             driver.quit()
 
@@ -151,6 +164,7 @@ class NetEaseNewsCrawlerPlay(BasicArticleCrawler):
                 LOGGER.error(traceback.format_exc())
                 LOGGER.error("url: %s" %(msg["url"]))
                 self.insertFailed(msg)
+                driver.quit()
                 pass
         except TimeoutException, e:
             #scroll bar set from bottom to top, make the page load all
@@ -170,10 +184,12 @@ class NetEaseNewsCrawlerPlay(BasicArticleCrawler):
                 LOGGER.error(traceback.format_exc())
                 LOGGER.error("url: %s" %(msg["url"]))
                 self.insertFailed(msg)
-                pass
+                driver.quit()
+
         except Exception, e:
             LOGGER.error(traceback.format_exc())
             LOGGER.error("url: %s" %(msg["url"]))
             self.insertFailed(msg)
+            driver.quit()
         finally:
             driver.quit()

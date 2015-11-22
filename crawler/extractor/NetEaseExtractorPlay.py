@@ -9,7 +9,7 @@ from selenium import webdriver
 
 from extractor.BaseExtractor import BaseExtractor
 from config.CommonConfig import PHANTOMJS_PATH, NEWS_URL_QUEUE
-from config.LogConfig import LOGGER
+from config.LogConfig import LOGGER_EXTRACTOR as LOGGER
 from utils.dbmysql import MysqlClient
 import traceback
 from extractor.NewsPublisher import NewsPublisher
@@ -57,7 +57,7 @@ class NetEaseExtractorPlay(BaseExtractor):
                     title = article.text # article title
                     if title not in list:
                         LOGGER.debug("article title %s"%(title))
-                        print title
+#                         print title
                         
                         url = elem.find_element_by_tag_name("a").get_attribute("href")
                         LOGGER.info("url:%s"%(url))

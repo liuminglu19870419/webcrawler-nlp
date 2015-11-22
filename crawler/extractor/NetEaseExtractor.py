@@ -9,7 +9,7 @@ from selenium import webdriver
 
 from extractor.BaseExtractor import BaseExtractor
 from config.CommonConfig import PHANTOMJS_PATH, NEWS_URL_QUEUE
-from config.LogConfig import LOGGER
+from config.LogConfig import LOGGER_EXTRACTOR as LOGGER
 from utils.dbmysql import MysqlClient
 import traceback
 from extractor.NewsPublisher import NewsPublisher

@@ -26,7 +26,7 @@ class BaseExtractor(object):
         msg = {}
         msg["url"] = url
         msg["tag"] = tag
-        msg["sub_tag"] = tag 
+        msg["sub_tag"] = sub_tag 
         msg["title"] = title
         msg["abstract"] = abstract
         msg["__priority"] = priority

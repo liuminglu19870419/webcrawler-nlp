@@ -51,10 +51,44 @@ LOGGING = {
             'when': 'D',
             'backupCount' : 30
         },
+                 
+        'file_crawler':{
+            'level':'DEBUG',
+            'class':'logging.handlers.TimedRotatingFileHandler',
+            'formatter': 'simple',
+            'filename': LOG_PATH + '/extractor.log',
+            'when': 'D',
+            'backupCount' : 30
+        },
+        'perf_crawler':{
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'formatter': 'message_only',
+            'filename': LOG_PATH + '/extractor_perf.log',
+            'maxBytes': 30 * 1024 * 1024,  # 30MB
+            'backupCount' : 30
+        },
+        'err_crawler':{
+            'level':'ERROR',
+            'class':'logging.handlers.TimedRotatingFileHandler',
+            'formatter': 'detail',
+            'filename': LOG_PATH + '/extractor.err',
+            'when': 'D',
+            'backupCount' : 30
+        },
+        'console':{
+            'level':'DEBUG',
+            'class':'logging.StreamHandler',
+            'formatter': 'detail',
+        },
     },
     'loggers': {
         'extractor': {
-            'handlers': ['file', 'err' ],
+            'handlers': ['file', 'err' ,"console"],
+            'level': 'DEBUG',
+        },
+        'crawler': {
+            'handlers': ['file_crawler', 'err_crawler' ,"console"],
             'level': 'DEBUG',
         },
         'extractor_perf': {
@@ -69,4 +103,5 @@ LOGGING = {
 }
 
 config.dictConfig(LOGGING)
-LOGGER = logging.getLogger("extractor")
+LOGGER_EXTRACTOR = logging.getLogger("extractor")
+LOGGER_CRAWLER = logging.getLogger("crawler")

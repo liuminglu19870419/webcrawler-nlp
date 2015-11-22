@@ -9,7 +9,7 @@ import os
 import sys
 sys.path.append('..')
 from mqclient.messagequeue.HandlerRepository  import  HandlerRepository
-from config.LogConfig import LOGGER
+from config.LogConfig import LOGGER_EXTRACTOR as LOGGER
 
 class NewsPublisher(object):
     '''

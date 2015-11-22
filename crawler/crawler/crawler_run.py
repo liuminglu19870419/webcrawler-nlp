@@ -14,7 +14,7 @@ from utils.daemon import Daemon, daemon_main
 import os
 from crawler.BasicCrawler import CrawlerMessageHandler, NetEaseNewsCrawler,\
     NetEaseNewsCrawlerPlay
-from config.LogConfig import LOGGER
+from config.LogConfig import LOGGER_CRAWLER as LOGGER
 import traceback
 
 crawlerMapper = {
@@ -38,13 +38,14 @@ class Crawler(Daemon):
     def run(self):
         try:
             LOGGING = {'version': 1   }
+            QUEUE_NAME = "news_article"
             LOGGER.info("start the news crawler")
-            threadCount = 2
+            threadCount = 5
             messageHandlerList = []
             workThreadList = []
             for _ in range(threadCount):
                 messageHandler = CrawlerMessageHandler(crawlerMapper)
-                messageHandler.set_inputmessage("news_article")
+                messageHandler.set_inputmessage(QUEUE_NAME)
                 messageHandlerList.append(messageHandler)
                 workerThread = threading.Thread(target=messageHandler.start,args=(LOGGING))
                 workerThread.start()
@@ -57,6 +58,7 @@ class Crawler(Daemon):
             LOGGER.error(traceback.format_exc())
         finally:
             LOGGER.info("end the news crawler")
+
 if __name__ == "__main__":
     daemon_main(Crawler, './ ', sys.argv)
 #     crawler = Crawler("./")
