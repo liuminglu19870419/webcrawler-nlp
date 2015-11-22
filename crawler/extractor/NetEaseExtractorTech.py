@@ -62,7 +62,7 @@ class NetEaseExtractorTech(BaseExtractor):
                             url = hrefs[1].get_attribute("href")
                             LOGGER.info("url:%s"%(url))
     
-                            url_is_exists = self.mysql_client.getOne("select * from published_url where url=%s", (url, ))
+                            url_is_exists = self.mysql_client.getOne("select * from successed_url where url=%s", (url, ))
                             if url_is_exists is False:
                                 
     #                             abstract = elem.find_element_by_class_name("item-Text").text
