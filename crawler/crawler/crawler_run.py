@@ -7,10 +7,10 @@ Created on 2015年11月22日
 
 import sys
 import threading
-from config.CommonConfig import CRAWLER_THREAD_COUNT
 sys.path.append("../")
 sys.path.append("../../")
 sys.path.append("/home/lml/webcrawler/webcrawler-nlp/crawler/")
+from config.CommonConfig import CRAWLER_THREAD_COUNT
 from utils.daemon import Daemon, daemon_main
 import os
 from crawler.BasicCrawler import CrawlerMessageHandler, NetEaseNewsCrawler,\
