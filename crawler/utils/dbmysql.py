@@ -171,7 +171,7 @@ class MysqlClient(object):
         """
         @summary: 开启事务
         """
-        self._conn.autocommit(0)
+#         self._conn.autocommit(0)
  
     def end(self,option='commit'):
         """
@@ -195,9 +195,12 @@ class MysqlClient(object):
 
 if __name__ == "__main__":
     client = MysqlClient()
-    cursor = client.getAll("select * from published_url")
+#     cursor = client.getAll("select * from published_url")
 #     cursor = client.getOne("select create_time from published_url where url = %s", ('test', ))
-    print cursor
+#     print cursor
+    cursor = client.insertOne("insert into user values(%s,%s)", (333, "test"))
+    cursor = client.update("update user set id=3 where email='test'")
+    client.end("rollback")
 #     cursor = client.getOne("select * from published_url where url=%s", ('http.//test2', ))
 #     print cursor
 #     result = client.insertOne("insert into published_url(url, tag, sub_tag) values(%s, %s, %s)",  ("test3", "tag", "sub_tag"))

@@ -7,6 +7,7 @@ Created on 2015年11月22日
 
 import sys
 import threading
+from config.CommonConfig import CRAWLER_THREAD_COUNT
 sys.path.append("../")
 sys.path.append("../../")
 sys.path.append("/home/lml/webcrawler/webcrawler-nlp/crawler/")
@@ -26,7 +27,7 @@ crawlerMapper = {
                                            "mili":NetEaseNewsCrawler(),
                                            "play":NetEaseNewsCrawlerPlay(),
                                            }
-                                    }
+                            }
 class Crawler(Daemon):
     '''
     classdocs
@@ -40,7 +41,7 @@ class Crawler(Daemon):
             LOGGING = {'version': 1   }
             QUEUE_NAME = "news_article"
             LOGGER.info("start the news crawler")
-            threadCount = 5
+            threadCount = CRAWLER_THREAD_COUNT
             messageHandlerList = []
             workThreadList = []
             for _ in range(threadCount):
