@@ -4,7 +4,13 @@ Created on 2015年11月24日
 
 @author: lml
 '''
-from utils.daemon import Daemon
+
+import sys
+sys.path.append("../")
+sys.path.append("../../")
+sys.path.append("/home/lml/webcrawler/webcrawler-nlp/crawler/")
+
+from utils.daemon import Daemon, daemon_main
 from utils.dbmysql import MysqlClient
 from extractor.NewsPublisher import NewsPublisher
 from config.CommonConfig import NEWS_URL_QUEUE
@@ -52,5 +58,6 @@ class FailedExtractor(Daemon):
         
 
 if __name__ == "__main__":
-    failedExtractor = FailedExtractor("./")
-    failedExtractor.run()
+#     failedExtractor = FailedExtractor("./")
+#     failedExtractor.run()
+    daemon_main(FailedExtractor, "./", sys.argv)
