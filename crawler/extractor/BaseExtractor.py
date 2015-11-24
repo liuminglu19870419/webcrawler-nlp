@@ -5,17 +5,24 @@ Created on 2015年11月18日
 @author: lml
 '''
 import time
+from utils.dbmysql import MysqlClient
+from config.CommonConfig import NEWS_URL_QUEUE, VERSION
+from extractor.NewsPublisher import NewsPublisher
 
 class BaseExtractor(object):
     '''
     classdocs
     '''
 
-
-    def __init__(self):
+    def __init__(self, config):
         '''
         Constructor
-        '''
+        '''        
+        self.url = config.get("url", "")
+        self.tag = config.get("tag", "defaut tag")
+        self.sub_tag = config.get("sub_tag", None)
+        self.mysql_client = MysqlClient()
+        self.news_publisher = NewsPublisher(NEWS_URL_QUEUE)
         
     def extract_links(self):
         """
@@ -30,4 +37,28 @@ class BaseExtractor(object):
         msg["title"] = title
         msg["abstract"] = abstract
         msg["__priority"] = priority
+        msg["version'"] = VERSION
+        msg["create_time"] = int(time.time() * 1000)
         return msg
+    
+    def isPublished(self, url):
+        try:
+            url_is_exists = self.mysql_client.getOne("select * from published_url where url=%s", (url, ))
+            if url_is_exists == False:
+                return False
+            else:
+                return True
+        except Exception, e:
+            return True
+    
+    def publishMsg(self, msg):
+        try:
+            self.news_publisher.process(msg)
+            self.mysql_client.insertOne("insert into published_url(url, tag, sub_tag, version, create_time) values(%s, %s, %s, %s, %s)", \
+                                         (msg["url"], msg["tag"], msg["sub_tag"], msg["version"], msg["create_time"]));
+            self.mysql_client.end("commit")
+        except Exception, e:
+            self.mysql_client.end("rollback")
+    
+#     def reTryFailedList(self):
+#         pass

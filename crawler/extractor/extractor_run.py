@@ -91,6 +91,6 @@ class Extractor(Daemon):
             LOGGER.info("finished extractor")
 
 if __name__ == '__main__':
-    daemon_main(Extractor, './ ', sys.argv)
-#     extractor = Extractor("./")
-#     extractor.run()
+#     daemon_main(Extractor, './ ', sys.argv)
+    extractor = Extractor("./")
+    extractor.run()

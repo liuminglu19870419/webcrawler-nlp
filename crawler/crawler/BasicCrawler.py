@@ -68,6 +68,12 @@ class  BasicArticleCrawler(object):
                 LOGGER.info("repeat crawler the article give up save: %s", msg["url"])
                 return
             
+            article = self.mysql_client.getOne("select * from failed_url where url=%s", (msg["url"], ))
+            if article != False:
+                article = self.mysql_client.delete("delete from failed_url where url=%s", (msg["url"], ))
+                LOGGER.info("delete the article from failed_url: %s", msg["url"])
+                return
+            
             self.mongo_client.save(msg)
             LOGGER.debug("insert into mongo: %s@%s" %(msg["title"], msg["url"]))
             

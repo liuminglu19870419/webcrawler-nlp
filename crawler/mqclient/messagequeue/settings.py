@@ -6,7 +6,7 @@ Created on Dec 14, 2012
 import os
 from logging.config import dictConfig
 from ConfigParser import SafeConfigParser
-from config.CommonConfig import HOST_IP
+from config.CommonConfig import HOST_IP, LOG_PATH, RABBITMQ_IP
 
 LOGGING = {
     'version': 1,
@@ -67,7 +67,7 @@ LOGGING = {
     }
 }
 
-RABBITMQSERVER_IP = HOST_IP
+RABBITMQSERVER_IP = RABBITMQ_IP
 RABBITMQSERVER_PORT = 5672
 SECTION = 'mqclient'
 def _load_config():
@@ -81,7 +81,7 @@ def _load_config():
 #     RABBITMQSERVER_PORT= int(cp.get(SECTION, 'rabbitmqserver_port', '5672'))
 
 #     logs_dir = cp.get(SECTION, 'logs_dir', 'logs')
-    logs_dir = "./"
+    logs_dir = LOG_PATH
     LOGGING['handlers']['file']['filename'] = os.path.join(logs_dir, 'mqclient.log')
     LOGGING['handlers']['perf']['filename'] = os.path.join(logs_dir, 'mqclient_perf.log')
     LOGGING['handlers']['err']['filename'] = os.path.join(logs_dir, 'mqclient.err')

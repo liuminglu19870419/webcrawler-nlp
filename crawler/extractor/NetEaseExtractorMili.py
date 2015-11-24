@@ -17,11 +17,7 @@ from extractor.NewsPublisher import NewsPublisher
 class NetEaseExtractorMili(BaseExtractor):
 
     def __init__(self, config):
-        self.url = config.get("url", "")
-        self.tag = config.get("tag", "defaut tag")
-        self.sub_tag = config.get("sub_tag", None)
-        self.mysql_client = MysqlClient()
-        self.news_publisher = NewsPublisher(NEWS_URL_QUEUE)
+        super(NetEaseExtractorMili, self ).__init__(config)
 
     def extract_links(self):
         try:
@@ -57,20 +53,18 @@ class NetEaseExtractorMili(BaseExtractor):
                         title = hrefs[0].text # article title
                         if title not in list:
                             LOGGER.debug("article title %s"%(title))
-#                             print title
                             
                             url = hrefs[0].get_attribute("href")
                             LOGGER.info("url:%s"%(url))
     
-                            url_is_exists = self.mysql_client.getOne("select * from successed_url where url=%s", (url, ))
+                            url_is_exists = self.isPublished(url)
                             if url_is_exists is False:
                                 
     #                             abstract = elem.find_element_by_class_name("item-Text").text
                                 abstract = ""
                                 # published the url msg to mq
                                 msg = self.formatMsg(url, self.tag, self.sub_tag, title, abstract)
-                                self.news_publisher.process(msg)
-                                self.mysql_client.insertOne("insert into published_url(url, tag, sub_tag) values(%s, %s, %s)",  (url, self.tag, self.sub_tag));
+                                self.publishMsg(msg)
     
                             else: # else the remain urls were already published
                                 republishedCount += 1
