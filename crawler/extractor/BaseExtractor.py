@@ -8,6 +8,8 @@ import time
 from utils.dbmysql import MysqlClient
 from config.CommonConfig import NEWS_URL_QUEUE, VERSION
 from extractor.NewsPublisher import NewsPublisher
+from config.LogConfig import LOGGER_EXTRACTOR as LOGGER
+import traceback
 
 class BaseExtractor(object):
     '''
@@ -37,8 +39,9 @@ class BaseExtractor(object):
         msg["title"] = title
         msg["abstract"] = abstract
         msg["__priority"] = priority
-        msg["version'"] = VERSION
+        msg["version"] = VERSION
         msg["create_time"] = int(time.time() * 1000)
+        
         return msg
     
     def isPublished(self, url):
@@ -59,6 +62,8 @@ class BaseExtractor(object):
             self.mysql_client.end("commit")
         except Exception, e:
             self.mysql_client.end("rollback")
+            LOGGER.error("published msg error: %s" %(msg["url"], ))
+            LOGGER.error(traceback.format_exc())
     
 #     def reTryFailedList(self):
 #         pass

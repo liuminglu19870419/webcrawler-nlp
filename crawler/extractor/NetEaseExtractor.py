@@ -50,7 +50,7 @@ class NetEaseExtractor(BaseExtractor):
                     title = article.text # article title
                     if title not in list:
                         LOGGER.debug("article title %s"%(title))
-                        print title
+#                         print title
                         
                         url = article.find_element_by_tag_name("a").get_attribute("href")
                         LOGGER.info("url:%s"%(url))
