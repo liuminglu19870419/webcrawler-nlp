@@ -4,6 +4,7 @@ Created on 2015年11月16日
 
 @author: lml
 '''
+import threading
 
 # -*- coding: UTF-8 -*-
 """
@@ -38,6 +39,7 @@ class MysqlClient(object):
     """
     #连接池对象
     __pool = None
+    __mutex = None
     def __init__(self):
         """
         数据库构造函数，从连接池中取出连接，并生成操作游标
@@ -57,6 +59,10 @@ class MysqlClient(object):
             __pool = PooledDB(creator=MySQLdb, mincached=1 , maxcached=20 ,
                               host=Config.DBHOST , port=Config.DBPORT , user=Config.DBUSER , passwd=Config.DBPWD ,
                               db=Config.DBNAME,use_unicode=False,charset=Config.DBCHAR,cursorclass=DictCursor)
+
+        if MysqlClient.__mutex is None:
+            MysqlClient.__mutex = threading.Lock()
+
         return __pool.connection()
  
     def getAll(self,sql,param=None):
@@ -83,14 +89,19 @@ class MysqlClient(object):
         @param param: 可选参数，条件列表值（元组/列表）
         @return: result list/boolean 查询到的结果集
         """
-        if param is None:
-            count = self._cursor.execute(sql)
-        else:
-            count = self._cursor.execute(sql,param)
-        if count>0:
-            result = self._cursor.fetchone()
-        else:
-            result = False
+        try:
+            MysqlClient.__mutex.acquire()
+            if param is None:
+                count = self._cursor.execute(sql)
+            else:
+                count = self._cursor.execute(sql,param)
+            if count>0:
+                result = self._cursor.fetchone()
+            else:
+                result = False
+        finally:
+            MysqlClient.__mutex.release()
+
         return result
  
     def getMany(self,sql,num,param=None):
@@ -193,13 +204,44 @@ class MysqlClient(object):
         self._cursor.close()
         self._conn.close()
 
+def fun(client, urls, index):
+    if index > 1000:
+        return
+    sql = "select create_time from published_url where url = %s"
+    result = client.getOne(sql, (urls[index]["url"], ))
+#     print index
+    print result
+
 if __name__ == "__main__":
     client = MysqlClient()
 #     cursor = client.getAll("select * from published_url")
-#     cursor = client.getOne("select create_time from published_url where url = %s", ('test', ))
+    sql = "select create_time from published_url where url = %s"
+    url1 = 'http://news.163.com/15/1124/15/B96QJKMQ00014JB6.html#f=wlist'
+    url2 =  'http://news.163.com/15/1124/16/B96TS88000014JB6.html#f=wlist'
+    urls = client.getAll("select url from published_url")
+#     print urls[0:3]
+    index = 0
+    print len(urls)
+    count = 5
+    while 1:
+        thread_list = []
+        for i in range(count):
+            thread_list.append(threading.Thread(target=fun, args=(client, urls, index)))
+            index = index + 1
+            
+        for thread in thread_list:
+            thread.start()
+            
+        for thread in thread_list:
+            thread.join()
+            
+#     cursor = client.getOne("select create_time from published_url where url = %s", ('http://news.163.com/15/1124/16/B96TS88000014JB6.html#f=wlist', ))
 #     print cursor
-    cursor = client.insertOne("insert into user values(%s,%s)", (333, "test"))
-    cursor = client.update("update user set id=3 where email='test'")
+#     cursor = client.getOne("select create_time from published_url where url = %s", ('http://news.163.com/15/1124/15/B96QJKMQ00014JB6.html#f=wlist', ))
+#     print cursor
+#     print cursor
+#     cursor = client.insertOne("insert into user values(%s,%s)", (333, "test"))
+#     cursor = client.update("update user set id=3 where email='test'")
     client.end("rollback")
 #     cursor = client.getOne("select * from published_url where url=%s", ('http.//test2', ))
 #     print cursor
