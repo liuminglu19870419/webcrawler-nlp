@@ -191,6 +191,16 @@ class NetEaseNewsCrawlerPlay(BasicArticleCrawler):
         articles_p = driver.find_element_by_id("endText").find_elements_by_tag_name("p")
         articles = map(lambda article : article.text, articles_p)
         return articles
+    
+class YouminNewsCrawler(BasicArticleCrawler):
+    
+    def __init__(self):
+        super(YouminNewsCrawler, self).__init__()
+        
+    def pharseContext(self, driver):
+        articles_p = driver.find_element_by_class_name("Mid2L_con").find_elements_by_tag_name("p")
+        articles = map(lambda article : article.text, articles_p)
+        return articles
 
 if __name__ == "__main__":
     print repr({"1", 123, "2",323})

@@ -7,6 +7,7 @@ Created on 2015年11月18日
 
 import sys
 import traceback
+from extractor.YouminExtractor import YouminExtractor
 sys.path.append("../")
 sys.path.append("../../")
 sys.path.append("/home/lml/webcrawler/webcrawler-nlp/crawler/")
@@ -28,7 +29,7 @@ extractor_source_url_config = [
          "sub_tag":"world",
          "period": 10
          },
-                                 
+                                  
         {
          "url": "http://news.163.com/domestic/",
          "extractor": NetEaseExtractorA,
@@ -36,7 +37,7 @@ extractor_source_url_config = [
          "sub_tag":"domestic",
          "period": 10
          },
-                                 
+                                  
         {
          "url": "http://news.163.com/shehui/",
          "extractor": NetEaseExtractorA,
@@ -44,7 +45,7 @@ extractor_source_url_config = [
          "sub_tag":"shehui",
          "period": 10
          },
- 
+  
         {
          "url": "http://tech.163.com/latest",
          "extractor": NetEaseExtractorTech,
@@ -52,7 +53,7 @@ extractor_source_url_config = [
          "sub_tag":"tech",
          "period": 10
          },
-
+ 
          {
          "url": "http://play.163.com/",
          "extractor": NetEaseExtractorPlay,
@@ -60,12 +61,34 @@ extractor_source_url_config = [
          "sub_tag":"play",
          "period": 10
          },
-
+ 
          {
          "url": "http://war.163.com/special/millatestnews/",
          "extractor": NetEaseExtractorMili,
          "tag":"163",
          "sub_tag":"mili",
+         "period": 10
+         },
+                               
+         {
+         "url": "http://ol.gamersky.com/",
+         "extractor": YouminExtractor,
+         "tag":"youmin",
+         "sub_tag":"online",
+         "period": 10
+         },
+        {
+         "url": "http://www.gamersky.com/pcgame/",
+         "extractor": YouminExtractor,
+         "tag":"youmin",
+         "sub_tag":"pcgame",
+         "period": 10
+         },
+        {
+         "url": "http://tv.gamersky.com/",
+         "extractor": YouminExtractor,
+         "tag":"youmin",
+         "sub_tag":"tvgame",
          "period": 10
          },
      ]

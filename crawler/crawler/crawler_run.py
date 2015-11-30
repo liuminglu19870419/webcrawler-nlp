@@ -14,7 +14,7 @@ from config.CommonConfig import CRAWLER_THREAD_COUNT
 from utils.daemon import Daemon, daemon_main
 import os
 from crawler.BasicCrawler import CrawlerMessageHandler, NetEaseNewsCrawler,\
-    NetEaseNewsCrawlerPlay
+    NetEaseNewsCrawlerPlay, YouminNewsCrawler
 from config.LogConfig import LOGGER_CRAWLER as LOGGER
 import traceback
 
@@ -26,7 +26,12 @@ crawlerMapper = {
                                            "tech":NetEaseNewsCrawler(),
                                            "mili":NetEaseNewsCrawler(),
                                            "play":NetEaseNewsCrawlerPlay(),
-                                           }
+                                           },
+                                "youmin":{
+                                          "online":YouminNewsCrawler(),
+                                          "pcgame":YouminNewsCrawler(),
+                                          "tvgame":YouminNewsCrawler(),
+                                          },
                             }
 class Crawler(Daemon):
     '''
