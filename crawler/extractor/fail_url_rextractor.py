@@ -28,14 +28,14 @@ class FailedExtractor(Daemon):
         '''
         super(FailedExtractor, self).__init__(pidfile , stdin, stdout, stderr)
         
-        self.mysql_client = MysqlClient()
-        self.news_publisher = NewsPublisher(NEWS_URL_QUEUE)
-        self.threhold = 5
-        self.page = 14
     
     def run(self):
         """
         """
+        self.mysql_client = MysqlClient()
+        self.news_publisher = NewsPublisher(NEWS_URL_QUEUE)
+        self.threhold = 5
+        self.page = 14
         LOGGER.info("start re extractor the failed url if count() < %s"%(self.threhold, ))
         failed_count = 0
         try:
@@ -45,13 +45,16 @@ class FailedExtractor(Daemon):
             LOGGER.error(traceback.format_exc())
         failed_count = int(failed_count["c"])
         count = 0
-        while count <= failed_count:
+        while count < failed_count:
             try:
+                print count
                 urls = self.mysql_client.getAll("select * from failed_url where count < %s limit %s, %s", (self.threhold, count, self.page))
+                if urls == False:
+                    break
+                count += len(urls)
                 for url in urls:
                     LOGGER.info("re extractor url: %s"%(url["url"], ))
                     self.news_publisher.process(url)
-                count = count + self.page
             except Exception, e:
                 LOGGER.error("re extractor urls error")
                 LOGGER.error(traceback.format_exc())
@@ -60,4 +63,4 @@ class FailedExtractor(Daemon):
 if __name__ == "__main__":
 #     failedExtractor = FailedExtractor("./")
 #     failedExtractor.run()
-    daemon_main(FailedExtractor, "./", sys.argv)
+    daemon_main(FailedExtractor, "failed", sys.argv)

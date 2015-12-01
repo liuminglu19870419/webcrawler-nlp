@@ -7,11 +7,11 @@ Created on 2015年11月18日
 
 import sys
 import traceback
-from extractor.YouminExtractor import YouminExtractor
 sys.path.append("../")
 sys.path.append("../../")
 sys.path.append("/home/lml/webcrawler/webcrawler-nlp/crawler/")
 
+from extractor.YouminExtractor import YouminExtractor
 from extractor.NetEaseExtractor import NetEaseExtractor
 from extractor.NetEaseExtractorA import NetEaseExtractorA
 from utils.daemon import Daemon, daemon_main
