@@ -604,6 +604,8 @@ class RabbitMQBlockingClient(object):
 
     @reliable_op
     def publish(self, message_type, message, priority=0):
+        
+        logging.info('published message: %s' % message)
         if not (message_type in self._proxies.keys()):
                 self._add_proxy(message_type)
         return self._proxies[message_type].publish(message, priority)
