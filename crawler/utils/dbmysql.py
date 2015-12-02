@@ -14,7 +14,11 @@ desc:数据库操作类
 ２、在格式ＳＱＬ中不需要使用引号指定数据类型，系统会根据输入参数自动识别
 ３、在输入的值中不需要使用转意函数，系统会自动处理
 """
- 
+
+import sys
+reload(sys)
+sys.setdefaultencoding("utf-8")
+
 import MySQLdb
 from MySQLdb.cursors import DictCursor
 from DBUtils.PooledDB import PooledDB
@@ -58,7 +62,7 @@ class MysqlClient(object):
         if MysqlClient.__pool is None:
             __pool = PooledDB(creator=MySQLdb, mincached=1 , maxcached=20 ,
                               host=Config.DBHOST , port=Config.DBPORT , user=Config.DBUSER , passwd=Config.DBPWD ,
-                              db=Config.DBNAME,use_unicode=False,charset=Config.DBCHAR,cursorclass=DictCursor)
+                              db=Config.DBNAME,use_unicode=True,charset=Config.DBCHAR,cursorclass=DictCursor)
 
         if MysqlClient.__mutex is None:
             MysqlClient.__mutex = threading.Lock()
@@ -211,38 +215,43 @@ def fun(client, urls, index):
     result = client.getOne(sql, (urls[index]["url"], ))
 #     print index
     print result
-
+    
 if __name__ == "__main__":
     client = MysqlClient()
 #     cursor = client.getAll("select * from published_url")
-    sql = "select create_time from published_url where url = %s"
-    url1 = 'http://news.163.com/15/1124/15/B96QJKMQ00014JB6.html#f=wlist'
-    url2 =  'http://news.163.com/15/1124/16/B96TS88000014JB6.html#f=wlist'
-    urls = client.getAll("select url from published_url")
-#     print urls[0:3]
-    index = 0
-    print len(urls)
-    count = 5
-    while 1:
-        thread_list = []
-        for i in range(count):
-            thread_list.append(threading.Thread(target=fun, args=(client, urls, index)))
-            index = index + 1
-            
-        for thread in thread_list:
-            thread.start()
-            
-        for thread in thread_list:
-            thread.join()
+#     sql = "select create_time from published_url where url = %s"
+#     url1 = 'http://news.163.com/15/1124/15/B96QJKMQ00014JB6.html#f=wlist'
+#     url2 =  'http://news.163.com/15/1124/16/B96TS88000014JB6.html#f=wlist'
+#     urls = client.getAll("select url from published_url")
+# #     print urls[0:3]
+#     index = 0
+#     print len(urls)
+#     count = 5
+#     while 1:
+#         thread_list = []
+#         for i in range(count):
+#             thread_list.append(threading.Thread(target=fun, args=(client, urls, index)))
+#             index = index + 1
+#             
+#         for thread in thread_list:
+#             thread.start()
+#             
+#         for thread in thread_list:
+#             thread.join()
             
 #     cursor = client.getOne("select create_time from published_url where url = %s", ('http://news.163.com/15/1124/16/B96TS88000014JB6.html#f=wlist', ))
 #     print cursor
 #     cursor = client.getOne("select create_time from published_url where url = %s", ('http://news.163.com/15/1124/15/B96QJKMQ00014JB6.html#f=wlist', ))
 #     print cursor
 #     print cursor
-#     cursor = client.insertOne("insert into user values(%s,%s)", (333, "test"))
-#     cursor = client.update("update user set id=3 where email='test'")
-    client.end("rollback")
+    cursor = client.insertOne("insert into user values(%s,%s)", (33, u"中文"))
+    print u"中文".encode("utf8")
+    client.end("commit")
+    result = client.getAll("select * from user")
+    for entry in result:
+#        pass 
+        entry["email"] = str(entry["email"].encode("utf-8"))
+    print result
 #     cursor = client.getOne("select * from published_url where url=%s", ('http.//test2', ))
 #     print cursor
 #     result = client.insertOne("insert into published_url(url, tag, sub_tag) values(%s, %s, %s)",  ("test3", "tag", "sub_tag"))
