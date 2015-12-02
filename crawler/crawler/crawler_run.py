@@ -66,6 +66,6 @@ class Crawler(Daemon):
             LOGGER.info("end the news crawler")
 
 if __name__ == "__main__":
-    daemon_main(Crawler, './ ', sys.argv)
+    daemon_main(Crawler, 'c', sys.argv)
 #     crawler = Crawler("./")
 #     crawler.run()

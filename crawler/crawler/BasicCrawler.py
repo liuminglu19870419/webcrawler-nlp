@@ -72,13 +72,13 @@ class  BasicArticleCrawler(object):
             if article != False:
                 article = self.mysql_client.delete("delete from failed_url where url=%s", (msg["url"], ))
                 LOGGER.info("delete the article from failed_url: %s", msg["url"])
-                return
             
             self.mongo_client.save(msg)
             LOGGER.debug("insert into mongo: %s@%s" %(msg["title"], msg["url"]))
             
-            self.mysql_client.insertOne("insert into successed_url(url, tag, sub_tag, version, create_time) values(%s, %s, %s, %s, %s)",  \
-                                        (msg["url"], msg["tag"], msg["sub_tag"], VERSION, msg["create_time"]));
+            self.mysql_client.insertOne("insert into successed_url(url, tag, sub_tag, version, create_time, title, abstract) values(%s, %s, %s, %s, %s, %s, %s)",  \
+                                        (msg["url"], msg["tag"], msg["sub_tag"], VERSION, msg["create_time"], msg["title"], msg.get("abstract", "")));
+                                        
             LOGGER.debug("insert successed_url %s" %(msg["url"], ))
             self.mysql_client.end("commit")
 
@@ -98,8 +98,8 @@ class  BasicArticleCrawler(object):
             self.mysql_client.begin()
             article = self.mysql_client.getOne("select * from failed_url where url=%s", (msg["url"], ))
             if article == False:
-                self.mysql_client.insertOne("insert into failed_url(url, tag, sub_tag, version, create_time) values(%s, %s, %s, %s, %s)",  \
-                                        (msg["url"], msg["tag"], msg["sub_tag"], VERSION, msg["create_time"]));
+                self.mysql_client.insertOne("insert into failed_url(url, tag, sub_tag, version, create_time, title, abstract) values(%s, %s, %s, %s, %s, %s, %s)",  \
+                                        (msg["url"], msg["tag"], msg["sub_tag"], VERSION, msg["create_time"], msg["title"], msg.get("abstract", "")));
                 LOGGER.debug("insert failed_url %s" %(msg["url"], ))
             else:
                 self.mysql_client.update("update failed_url set count = count+1 where url = %s", (msg["url"], ))
