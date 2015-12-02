@@ -57,8 +57,8 @@ class BaseExtractor(object):
     def publishMsg(self, msg):
         try:
             self.news_publisher.process(msg)
-            self.mysql_client.insertOne("insert into published_url(url, tag, sub_tag, version, create_time) values(%s, %s, %s, %s, %s)", \
-                                         (msg["url"], msg["tag"], msg["sub_tag"], msg["version"], msg["create_time"]));
+            self.mysql_client.insertOne("insert into published_url(url, tag, sub_tag, version, create_time, title, abstract) values(%s, %s, %s, %s, %s, %s, %s)", \
+                                         (msg["url"], msg["tag"], msg["sub_tag"], msg["version"], msg["create_time"], msg["title"], msg.get("abstract", "")));
             self.mysql_client.end("commit")
         except Exception, e:
             self.mysql_client.end("rollback")
