@@ -11,7 +11,7 @@ from config.CommonConfig import PHANTOMJS_PATH, HOST_IP, VERSION
 from selenium import webdriver
 from config.LogConfig import LOGGER_CRAWLER as LOGGER
 import traceback
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from utils.dbmysql import MysqlClient
 from utils.dbmong import MongoClient
 
@@ -60,24 +60,24 @@ class  BasicArticleCrawler(object):
         """
         try:
             self.mysql_client.begin()
-            article = self.mysql_client.getOne("select * from successed_url where url=%s", (msg["url"], ))
 #             print article
 #             print msg["url"]
-            
-            if article != False:
-                LOGGER.info("repeat crawler the article give up save: %s", msg["url"])
-                return
             
             article = self.mysql_client.getOne("select * from failed_url where url=%s", (msg["url"], ))
             if article != False:
                 article = self.mysql_client.delete("delete from failed_url where url=%s", (msg["url"], ))
                 LOGGER.info("delete the article from failed_url: %s", msg["url"])
+
+            article = self.mysql_client.getOne("select * from successed_url where url=%s", (msg["url"], ))
+            if article != False:
+                LOGGER.info("repeat crawler the article give up save: %s", msg["url"])
+                return
             
             self.mongo_client.save(msg)
             LOGGER.debug("insert into mongo: %s@%s" %(msg["title"], msg["url"]))
             
-            self.mysql_client.insertOne("insert into successed_url(url, tag, sub_tag, version, create_time, title, abstract) values(%s, %s, %s, %s, %s, %s, %s)",  \
-                                        (msg["url"], msg["tag"], msg["sub_tag"], VERSION, msg["create_time"], msg["title"], msg.get("abstract", "")));
+            self.mysql_client.insertOne("insert into successed_url(url, tag, sub_tag, version, create_time) values(%s, %s, %s, %s, %s)",  \
+                                        (msg["url"], msg["tag"], msg["sub_tag"], VERSION, msg["create_time"]));
                                         
             LOGGER.debug("insert successed_url %s" %(msg["url"], ))
             self.mysql_client.end("commit")
@@ -98,8 +98,8 @@ class  BasicArticleCrawler(object):
             self.mysql_client.begin()
             article = self.mysql_client.getOne("select * from failed_url where url=%s", (msg["url"], ))
             if article == False:
-                self.mysql_client.insertOne("insert into failed_url(url, tag, sub_tag, version, create_time, title, abstract) values(%s, %s, %s, %s, %s, %s, %s)",  \
-                                        (msg["url"], msg["tag"], msg["sub_tag"], VERSION, msg["create_time"], msg["title"], msg.get("abstract", "")));
+                self.mysql_client.insertOne("insert into failed_url(url, tag, sub_tag, version, create_time) values(%s, %s, %s, %s, %s)",  \
+                                        (msg["url"], msg["tag"], msg["sub_tag"], VERSION, msg["create_time"]));
                 LOGGER.debug("insert failed_url %s" %(msg["url"], ))
             else:
                 self.mysql_client.update("update failed_url set count = count+1 where url = %s", (msg["url"], ))
@@ -201,6 +201,57 @@ class YouminNewsCrawler(BasicArticleCrawler):
         articles_p = driver.find_element_by_class_name("Mid2L_con").find_elements_by_tag_name("p")
         articles = map(lambda article : article.text, articles_p)
         return articles
+
+class SinaNewsCrawler(BasicArticleCrawler):
+    
+    def __init__(self):
+        super(SinaNewsCrawler, self).__init__()
+        
+    def pharseContext(self, driver):
+        articles_p = driver.find_element_by_css_selector("div[class=\"page-content clearfix\"]").find_elements_by_tag_name("p")
+        articles = map(lambda article : article.text, articles_p)
+        return articles
+
+class SinaNewsCrawlerMili(BasicArticleCrawler):
+    
+    def __init__(self):
+        super(SinaNewsCrawlerMili, self).__init__()
+        
+    def pharseContext(self, driver):
+        articles_p = driver.find_element_by_css_selector("div[id=\"artibody\"]").find_elements_by_tag_name("p")
+        articles = map(lambda article : article.text, articles_p)
+        return articles
+
+class SinaNewsCrawlerGame(BasicArticleCrawler):
+    
+    def __init__(self):
+        super(SinaNewsCrawlerGame, self).__init__()
+        
+    def pharseContext(self, driver):
+        try:
+            articles_p = driver.find_element_by_css_selector("div[id=\"artibody\"]").find_elements_by_tag_name("p")
+            articles = map(lambda article : article.text, articles_p)
+        except NoSuchElementException, e:
+            LOGGER.debug(e)
+            articles_p = driver.find_element_by_class_name("text").find_elements_by_tag_name("p")
+            articles = map(lambda article : article.text, articles_p)
+            return articles
+        return articles
+        
+        
+   
+
+class ChinaNewsCrawler(BasicArticleCrawler):
+    
+    def __init__(self):
+        super(ChinaNewsCrawler, self).__init__()
+        
+    def pharseContext(self, driver):
+        articles_p = driver.find_element_by_class_name("left_zw").find_elements_by_tag_name("p")
+        articles = map(lambda article : article.text, articles_p)
+        return articles
+        
+        
 
 if __name__ == "__main__":
     print repr({"1", 123, "2",323})

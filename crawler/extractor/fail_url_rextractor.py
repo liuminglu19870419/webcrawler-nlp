@@ -54,6 +54,9 @@ class FailedExtractor(Daemon):
                 count += len(urls)
                 for url in urls:
                     LOGGER.info("re extractor url: %s"%(url["url"], ))
+                    msg = self.mysql_client.getOne("select abstract, title from published_url where url = %s", (url["url"], ))
+                    url["title"] = msg["title"]
+                    url["abstract"] = msg["abstract"]
                     self.news_publisher.process(url)
             except Exception, e:
                 LOGGER.error("re extractor urls error")

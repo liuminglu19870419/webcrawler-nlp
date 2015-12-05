@@ -5,6 +5,7 @@ Created on 2015年11月16日
 @author: lml
 '''
 import threading
+from config.CommonConfig import MYSQL_IP
 
 # -*- coding: UTF-8 -*-
 """
@@ -17,17 +18,18 @@ desc:数据库操作类
 
 import sys
 reload(sys)
-sys.setdefaultencoding("utf-8")
+# sys.setdefaultencoding("utf-8")
 
 import MySQLdb
 from MySQLdb.cursors import DictCursor
 from DBUtils.PooledDB import PooledDB
+from config.CommonConfig import MYSQL_IP
  
 class __config(object):
     pass
  
 Config =  __config()
-Config.DBHOST  =  "127.0.0.1"
+Config.DBHOST  =  MYSQL_IP
 Config.DBPORT  = 3306
 Config.DBUSER  = "root"
 Config.DBPWD = "lml19870419"
