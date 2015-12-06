@@ -7,7 +7,6 @@ Created on 2015年11月18日
 
 import sys
 import traceback
-from extractor.HuanQiuExtractor import HuanQiuExtractor
 sys.path.append("../")
 sys.path.append("../../")
 sys.path.append("/home/lml/webcrawler/webcrawler-nlp/crawler/")
@@ -28,6 +27,7 @@ from extractor.SinaExtractorGamer import SinaExtractorGamer
 from extractor.SinaExtractorGameTV import SinaExtractorGameTV
 from extractor.SinaExtractorNewGame import SinaExtractorNewGame
 from extractor.ChinaNewsExtractor import ChinaNewsExtractor
+from extractor.HuanQiuExtractor import HuanQiuExtractor
 
 extractor_source_url_config = [
          {
