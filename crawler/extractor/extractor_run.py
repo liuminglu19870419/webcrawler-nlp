@@ -37,7 +37,7 @@ extractor_source_url_config = [
           "sub_tag":"world",
           "period": 10
           },
-                                    
+                                     
          {
           "url": "http://news.163.com/domestic/",
           "extractor": NetEaseExtractorA,
@@ -45,7 +45,7 @@ extractor_source_url_config = [
           "sub_tag":"domestic",
           "period": 10
           },
-                                    
+                                     
          {
           "url": "http://news.163.com/shehui/",
           "extractor": NetEaseExtractorA,
@@ -53,7 +53,7 @@ extractor_source_url_config = [
           "sub_tag":"shehui",
           "period": 10
           },
-    
+     
          {
           "url": "http://tech.163.com/latest",
           "extractor": NetEaseExtractorTech,
@@ -61,7 +61,7 @@ extractor_source_url_config = [
           "sub_tag":"tech",
           "period": 10
           },
-   
+    
           {
           "url": "http://play.163.com/",
           "extractor": NetEaseExtractorPlay,
@@ -69,7 +69,7 @@ extractor_source_url_config = [
           "sub_tag":"play",
           "period": 10
           },
-   
+    
           {
           "url": "http://war.163.com/special/millatestnews/",
           "extractor": NetEaseExtractorMili,
@@ -77,7 +77,7 @@ extractor_source_url_config = [
           "sub_tag":"mili",
           "period": 10
           },
-                                 
+                                  
           {
           "url": "http://ol.gamersky.com/",
           "extractor": YouminExtractor,
@@ -85,7 +85,7 @@ extractor_source_url_config = [
           "sub_tag":"online",
           "period": 10
           },
-                                
+                                 
          {
           "url": "http://www.gamersky.com/pcgame/",
           "extractor": YouminExtractor,
@@ -93,7 +93,7 @@ extractor_source_url_config = [
           "sub_tag":"pcgame",
           "period": 10
           },
-                                
+                                 
          {
           "url": "http://tv.gamersky.com/",
           "extractor": YouminExtractor,
@@ -101,7 +101,7 @@ extractor_source_url_config = [
           "sub_tag":"tvgame",
           "period": 10
           },
-  
+   
         {
          "url": "http://roll.news.sina.com.cn/s/channel.php?ch=01#col=90&spec=&type=&ch=01&k=&offset_page=0&offset_num=0&num=80&asc=&page=1",
          "extractor": SinaExtractorRoll,
@@ -109,7 +109,7 @@ extractor_source_url_config = [
          "sub_tag":"domestic",
          "period": 10
          },
-                                 
+                                  
         {
          "url": "http://roll.news.sina.com.cn/s/channel.php?ch=01#col=91&spec=&type=&ch=01&k=&offset_page=0&offset_num=0&num=80&asc=&page=1",
          "extractor": SinaExtractorRoll,
@@ -117,7 +117,7 @@ extractor_source_url_config = [
          "sub_tag":"world",
          "period": 10
          },
-                                 
+                                  
         {
          "url": "http://roll.news.sina.com.cn/s/channel.php?ch=01#col=92&spec=&type=&ch=01&k=&offset_page=0&offset_num=0&num=80&asc=&page=1",
          "extractor": SinaExtractorRoll,
@@ -125,7 +125,7 @@ extractor_source_url_config = [
          "sub_tag":"shehui",
          "period": 10
          },
-   
+    
         {
          "url": "http://roll.news.sina.com.cn/s/channel.php?ch=01#col=93&spec=&type=&ch=01&k=&offset_page=0&offset_num=0&num=80&asc=&page=1",
          "extractor": SinaExtractorRoll,
@@ -133,7 +133,7 @@ extractor_source_url_config = [
          "sub_tag":"mili",
          "period": 10
          },            
-  
+   
          {
           "url": "http://roll.news.sina.com.cn/s/channel.php?ch=01#col=94&spec=&type=&ch=01&k=&offset_page=0&offset_num=0&num=80&asc=&page=1",
           "extractor": SinaExtractorRoll,
@@ -141,7 +141,7 @@ extractor_source_url_config = [
           "sub_tag":"sport",
           "period": 10
           },
-                                 
+                                  
          {
           "url": "http://roll.news.sina.com.cn/s/channel.php?ch=01#col=95&spec=&type=&ch=01&k=&offset_page=0&offset_num=0&num=80&asc=&page=1",
           "extractor": SinaExtractorRoll,
@@ -163,7 +163,7 @@ extractor_source_url_config = [
          "sub_tag":"play",
          "period": 10
          },     
-  
+   
         {
         "url": "http://api.g.sina.com.cn/pgame/get_kan_news_index/?index=1",
         "extractor": SinaExtractorGamer,
@@ -171,7 +171,7 @@ extractor_source_url_config = [
         "sub_tag":"play",
         "period": 10
         },     
-              
+               
         {
         "url": "http://kf.games.sina.com.cn/dianwan/dianwan/iframe_hot_news",
         "extractor": SinaExtractorGameTV,
@@ -186,7 +186,7 @@ extractor_source_url_config = [
         "sub_tag":"play",
         "period": 10
         },     
- 
+  
         {
         "url": "http://www.chinanews.com/importnews.html",
         "extractor": ChinaNewsExtractor,
@@ -201,13 +201,13 @@ extractor_source_url_config = [
          "sub_tag":"domestic",
          "period": 10
          },     
-                                        {
-         "url": "http://www.chinanews.com/world/",
-         "extractor": ChinaNewsExtractor,
-         "tag":"chinanews",
-         "sub_tag":"world",
-         "period": 10
-         },     
+                                       {
+        "url": "http://www.chinanews.com/world.shtml",
+        "extractor": ChinaNewsExtractor,
+        "tag":"chinanews",
+        "sub_tag":"world",
+        "period": 10
+        },     
                                         {
          "url": "http://www.chinanews.com/society.shtml",
          "extractor": ChinaNewsExtractor,
@@ -243,28 +243,28 @@ extractor_source_url_config = [
          "sub_tag":"yule",
          "period": 10
          },     
-                               
+                                
+         {
+          "url": "http://china.huanqiu.com/article/",
+          "extractor": HuanQiuExtractor,
+          "tag":"huanqiu",
+          "sub_tag":"domestic",
+          "period": 10
+          },     
         {
-         "url": "http://china.huanqiu.com/article/",
-         "extractor": HuanQiuExtractor,
-         "tag":"huanqiu",
-         "sub_tag":"domestic",
-         "period": 10
-         },     
-       {
-         "url": "http://society.huanqiu.com/socialnews/",
-         "extractor": HuanQiuExtractor,
-         "tag":"huanqiu",
-         "sub_tag":"shehui",
-         "period": 10
-         },   
-                                      {
-         "url": "http://world.huanqiu.com/exclusive/",
-         "extractor": HuanQiuExtractor,
-         "tag":"huanqiu",
-         "sub_tag":"world",
-         "period": 10
-         },   
+          "url": "http://society.huanqiu.com/socialnews/",
+          "extractor": HuanQiuExtractor,
+          "tag":"huanqiu",
+          "sub_tag":"shehui",
+          "period": 10
+          },   
+                                       {
+          "url": "http://world.huanqiu.com/exclusive/",
+          "extractor": HuanQiuExtractor,
+          "tag":"huanqiu",
+          "sub_tag":"world",
+          "period": 10
+          },   
      ]
 
 

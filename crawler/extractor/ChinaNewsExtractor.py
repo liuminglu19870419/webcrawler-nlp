@@ -45,6 +45,8 @@ class ChinaNewsExtractor(BaseExtractor):
             link_list = driver.find_element_by_class_name("content_list").find_elements_by_class_name("dd_bt")
 
             for elem in link_list:
+                if stop_flag == False:
+                    break
                 articles = elem.find_elements_by_tag_name("a")
                 if len(articles) > 1:
                     articles = articles[1: ]
