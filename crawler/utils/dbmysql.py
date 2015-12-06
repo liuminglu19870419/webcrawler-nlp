@@ -6,6 +6,8 @@ Created on 2015年11月16日
 '''
 import threading
 from config.CommonConfig import MYSQL_IP
+from config.LogConfig import LOGGER_EXTRACTOR, LOGGER_CRAWLER
+
 
 # -*- coding: UTF-8 -*-
 """
@@ -95,8 +97,8 @@ class MysqlClient(object):
         @param param: 可选参数，条件列表值（元组/列表）
         @return: result list/boolean 查询到的结果集
         """
+        LOGGER_CRAWLER.debug("start getOne %s"%sql)
         try:
-            MysqlClient.__mutex.acquire()
             if param is None:
                 count = self._cursor.execute(sql)
             else:
@@ -105,8 +107,13 @@ class MysqlClient(object):
                 result = self._cursor.fetchone()
             else:
                 result = False
+        except Exception, e:
+            result = False
+            LOGGER_CRAWLER.debug("exception %s"%e)
         finally:
-            MysqlClient.__mutex.release()
+            pass
+            
+        LOGGER_CRAWLER.debug("end getOne %s"%sql)
 
         return result
  
@@ -135,11 +142,15 @@ class MysqlClient(object):
         @param value:要插入的记录数据tuple/list
         @return: insertId 受影响的行数
         """
+        LOGGER_CRAWLER.debug("start insert %s"%sql)
         try:
-            MysqlClient.__mutex.acquire()
             self._cursor.execute(sql,value)
+        except Exception, e:
+            result = False
+            LOGGER_CRAWLER.debug("exception %s"%e)
         finally:
-            MysqlClient.__mutex.release()
+            pass
+        LOGGER_CRAWLER.debug("end insert %s"%sql)
         return self.__getInsertId()
  
     def insertMany(self,sql,values):
@@ -197,11 +208,20 @@ class MysqlClient(object):
     def end(self,option='commit'):
         """
         @summary: 结束事务
-        """
-        if option=='commit':
-            self._conn.commit()
-        else:
-            self._conn.rollback()
+        """        
+        LOGGER_CRAWLER.debug("start %s"%option)
+        try:
+            LOGGER_CRAWLER.debug("acquire lock")
+            if option=='commit':
+                self._conn.commit()
+            else:
+                self._conn.rollback()
+        except Exception, e:
+            result = False
+            LOGGER_CRAWLER.debug("exception %s"%e)
+            
+        LOGGER_CRAWLER.debug("end %s"%option)
+        return
  
     def dispose(self,isEnd=1):
         """

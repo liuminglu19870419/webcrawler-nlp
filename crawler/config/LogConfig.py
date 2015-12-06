@@ -30,7 +30,7 @@ LOGGING = {
         'file':{
             'level':'DEBUG',
             'class':'logging.handlers.TimedRotatingFileHandler',
-            'formatter': 'simple',
+            'formatter': 'verbose',
             'filename': LOG_PATH + '/extractor.log',
             'when': 'D',
             'backupCount' : 30
@@ -46,7 +46,7 @@ LOGGING = {
         'err':{
             'level':'ERROR',
             'class':'logging.handlers.TimedRotatingFileHandler',
-            'formatter': 'detail',
+            'formatter': 'verbose',
             'filename': LOG_PATH + '/extractor.err',
             'when': 'D',
             'backupCount' : 30
@@ -55,7 +55,7 @@ LOGGING = {
         'file_crawler':{
             'level':'DEBUG',
             'class':'logging.handlers.TimedRotatingFileHandler',
-            'formatter': 'simple',
+            'formatter': 'verbose',
             'filename': LOG_PATH + '/crawler.log',
             'when': 'D',
             'backupCount' : 30
@@ -71,7 +71,7 @@ LOGGING = {
         'err_crawler':{
             'level':'ERROR',
             'class':'logging.handlers.TimedRotatingFileHandler',
-            'formatter': 'detail',
+            'formatter': 'verbose',
             'filename': LOG_PATH + '/crawler.err',
             'when': 'D',
             'backupCount' : 30
@@ -79,7 +79,7 @@ LOGGING = {
         'console':{
             'level':'DEBUG',
             'class':'logging.StreamHandler',
-            'formatter': 'detail',
+            'formatter': 'verbose',
         },
     },
     'loggers': {

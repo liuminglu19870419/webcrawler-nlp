@@ -35,9 +35,13 @@ class CrawlerMessageHandler(MessageHandler):
         This is the main message process method, normally we have all the process
         logic here
         '''
-        url, title, tag, sub_tag, abstract = self.pharseMsg(msg)
-        crawler = self.crawlerMapper[tag][sub_tag]
-        crawler.crawlArticle(msg)
+        try:
+            url, title, tag, sub_tag, abstract = self.pharseMsg(msg)
+            crawler = self.crawlerMapper[tag][sub_tag]
+            crawler.crawlArticle(msg)
+        except Exception, e:
+            LOGGER.error(traceback.format_exc())
+            LOGGER.error(e)
 #         print '[Consumer%d] received message: %s' % (os.getpid(), msg)     
     
     def pharseMsg(self, msg):
@@ -105,6 +109,7 @@ class  BasicArticleCrawler(object):
                 self.mysql_client.update("update failed_url set count = count+1 where url = %s", (msg["url"], ))
                 LOGGER.debug("update failed_url %s" %(msg["url"], ))
             self.mysql_client.end("commit")
+            LOGGER.debug("commit failed_url %s" %(msg["url"], ))
                                         
         except Exception, e:
             LOGGER.error(traceback.format_exc())
@@ -158,13 +163,17 @@ class  BasicArticleCrawler(object):
                 self.insertFailed(msg)
                 LOGGER.error(traceback.format_exc())
                 LOGGER.error("url: %s" %(msg["url"], ))
+                driver.quit()
 
         except Exception, e:
             self.insertFailed(msg)
             LOGGER.error(traceback.format_exc())
             LOGGER.error("url: %s" %(msg["url"], ))
         finally:
-            driver.quit()
+            try:
+                driver.quit()
+            except Exception, e:
+                pass
     
     def pharseTitle(self, driver):
         return ""
