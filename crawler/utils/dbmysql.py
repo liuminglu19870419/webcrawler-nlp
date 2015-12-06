@@ -135,7 +135,11 @@ class MysqlClient(object):
         @param value:要插入的记录数据tuple/list
         @return: insertId 受影响的行数
         """
-        self._cursor.execute(sql,value)
+        try:
+            MysqlClient.__mutex.acquire()
+            self._cursor.execute(sql,value)
+        finally:
+            MysqlClient.__mutex.release()
         return self.__getInsertId()
  
     def insertMany(self,sql,values):
