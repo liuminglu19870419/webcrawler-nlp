@@ -15,7 +15,7 @@ from utils.daemon import Daemon, daemon_main
 import os
 from crawler.BasicCrawler import CrawlerMessageHandler, NetEaseNewsCrawler,\
     NetEaseNewsCrawlerPlay, YouminNewsCrawler, SinaNewsCrawler,\
-    SinaNewsCrawlerMili, SinaNewsCrawlerGame, ChinaNewsCrawler
+    SinaNewsCrawlerMili, SinaNewsCrawlerGame, ChinaNewsCrawler, HuanQiuCrawler
 from config.LogConfig import LOGGER_CRAWLER as LOGGER
 import traceback
 
@@ -52,7 +52,12 @@ crawlerMapper = {
                                         "yule":ChinaNewsCrawler(),
                                         "sport":ChinaNewsCrawler(),
                                         "yaowen":ChinaNewsCrawler(),
-                                        }
+                                        },
+                                   "huanqiu":{
+                                        "world":HuanQiuCrawler(),
+                                        "domestic":HuanQiuCrawler(),
+                                        "shehui":HuanQiuCrawler(),
+                                        },
                             }
 class Crawler(Daemon):
     '''
@@ -87,6 +92,6 @@ class Crawler(Daemon):
             LOGGER.info("end the news crawler")
 
 if __name__ == "__main__":
-    daemon_main(Crawler, 'c', sys.argv)
-#     crawler = Crawler("./")
-#     crawler.run()
+#     daemon_main(Crawler, 'c', sys.argv)
+    crawler = Crawler("./")
+    crawler.run()

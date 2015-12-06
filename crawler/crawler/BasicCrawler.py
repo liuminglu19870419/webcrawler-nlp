@@ -117,6 +117,11 @@ class  BasicArticleCrawler(object):
         
         url = msg["url"]
         try:
+            article = self.mysql_client.getOne("select * from successed_url where url=%s", (msg["url"], ))
+            if article != False:
+                LOGGER.info("repeat crawler the article give up save: %s", msg["url"])
+                return
+
             driver = webdriver.PhantomJS(PHANTOMJS_PATH)
             driver.set_page_load_timeout(10)
             LOGGER.debug("start extractor from %s" %(url, ))
@@ -251,7 +256,15 @@ class ChinaNewsCrawler(BasicArticleCrawler):
         articles = map(lambda article : article.text, articles_p)
         return articles
         
+class HuanQiuCrawler(BasicArticleCrawler):
+    
+    def __init__(self):
+        super(HuanQiuCrawler, self).__init__()
         
+    def pharseContext(self, driver):
+        articles_p = driver.find_element_by_class_name("text").find_elements_by_tag_name("p")
+        articles = map(lambda article : article.text, articles_p)
+        return articles       
 
 if __name__ == "__main__":
     print repr({"1", 123, "2",323})
