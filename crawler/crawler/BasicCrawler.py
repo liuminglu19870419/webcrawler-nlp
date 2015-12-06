@@ -117,13 +117,14 @@ class  BasicArticleCrawler(object):
         
         url = msg["url"]
         try:
+            
+            driver = webdriver.PhantomJS(PHANTOMJS_PATH)
+            driver.set_page_load_timeout(10)
             article = self.mysql_client.getOne("select * from successed_url where url=%s", (msg["url"], ))
             if article != False:
                 LOGGER.info("repeat crawler the article give up save: %s", msg["url"])
                 return
 
-            driver = webdriver.PhantomJS(PHANTOMJS_PATH)
-            driver.set_page_load_timeout(10)
             LOGGER.debug("start extractor from %s" %(url, ))
             driver.get(url)
             try:
