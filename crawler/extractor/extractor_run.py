@@ -30,219 +30,219 @@ from extractor.SinaExtractorNewGame import SinaExtractorNewGame
 from extractor.ChinaNewsExtractor import ChinaNewsExtractor
 
 extractor_source_url_config = [
-#          {
-#           "url": "http://news.163.com/world/",
-#           "extractor": NetEaseExtractor,
-#           "tag":"163",
-#           "sub_tag":"world",
-#           "period": 10
-#           },
-#                                    
-#          {
-#           "url": "http://news.163.com/domestic/",
-#           "extractor": NetEaseExtractorA,
-#           "tag":"163",
-#           "sub_tag":"domestic",
-#           "period": 10
-#           },
-#                                    
-#          {
-#           "url": "http://news.163.com/shehui/",
-#           "extractor": NetEaseExtractorA,
-#           "tag":"163",
-#           "sub_tag":"shehui",
-#           "period": 10
-#           },
-#    
-#          {
-#           "url": "http://tech.163.com/latest",
-#           "extractor": NetEaseExtractorTech,
-#           "tag":"163",
-#           "sub_tag":"tech",
-#           "period": 10
-#           },
-#   
-#           {
-#           "url": "http://play.163.com/",
-#           "extractor": NetEaseExtractorPlay,
-#           "tag":"163",
-#           "sub_tag":"play",
-#           "period": 10
-#           },
-#   
-#           {
-#           "url": "http://war.163.com/special/millatestnews/",
-#           "extractor": NetEaseExtractorMili,
-#           "tag":"163",
-#           "sub_tag":"mili",
-#           "period": 10
-#           },
-#                                 
-#           {
-#           "url": "http://ol.gamersky.com/",
-#           "extractor": YouminExtractor,
-#           "tag":"youmin",
-#           "sub_tag":"online",
-#           "period": 10
-#           },
-#                                
-#          {
-#           "url": "http://www.gamersky.com/pcgame/",
-#           "extractor": YouminExtractor,
-#           "tag":"youmin",
-#           "sub_tag":"pcgame",
-#           "period": 10
-#           },
-#                                
-#          {
-#           "url": "http://tv.gamersky.com/",
-#           "extractor": YouminExtractor,
-#           "tag":"youmin",
-#           "sub_tag":"tvgame",
-#           "period": 10
-#           },
-#  
-#         {
-#          "url": "http://roll.news.sina.com.cn/s/channel.php?ch=01#col=90&spec=&type=&ch=01&k=&offset_page=0&offset_num=0&num=80&asc=&page=1",
-#          "extractor": SinaExtractorRoll,
-#          "tag":"sina",
-#          "sub_tag":"domestic",
-#          "period": 10
-#          },
-#                                 
-#         {
-#          "url": "http://roll.news.sina.com.cn/s/channel.php?ch=01#col=91&spec=&type=&ch=01&k=&offset_page=0&offset_num=0&num=80&asc=&page=1",
-#          "extractor": SinaExtractorRoll,
-#          "tag":"sina",
-#          "sub_tag":"world",
-#          "period": 10
-#          },
-#                                 
-#         {
-#          "url": "http://roll.news.sina.com.cn/s/channel.php?ch=01#col=92&spec=&type=&ch=01&k=&offset_page=0&offset_num=0&num=80&asc=&page=1",
-#          "extractor": SinaExtractorRoll,
-#          "tag":"sina",
-#          "sub_tag":"shehui",
-#          "period": 10
-#          },
-#   
-#         {
-#          "url": "http://roll.news.sina.com.cn/s/channel.php?ch=01#col=93&spec=&type=&ch=01&k=&offset_page=0&offset_num=0&num=80&asc=&page=1",
-#          "extractor": SinaExtractorRoll,
-#          "tag":"sina",
-#          "sub_tag":"mili",
-#          "period": 10
-#          },            
-#  
-#          {
-#           "url": "http://roll.news.sina.com.cn/s/channel.php?ch=01#col=94&spec=&type=&ch=01&k=&offset_page=0&offset_num=0&num=80&asc=&page=1",
-#           "extractor": SinaExtractorRoll,
-#           "tag":"sina",
-#           "sub_tag":"sport",
-#           "period": 10
-#           },
-#                                 
-#          {
-#           "url": "http://roll.news.sina.com.cn/s/channel.php?ch=01#col=95&spec=&type=&ch=01&k=&offset_page=0&offset_num=0&num=80&asc=&page=1",
-#           "extractor": SinaExtractorRoll,
-#           "tag":"sina",
-#           "sub_tag":"yule",
-#           "period": 10
-#           },
-#          {
-#          "url": "http://roll.news.sina.com.cn/s/channel.php?ch=01#col=96&spec=&type=&ch=01&k=&offset_page=0&offset_num=0&num=80&asc=&page=1",
-#          "extractor": SinaExtractorRoll,
-#          "tag":"sina",
-#          "sub_tag":"tech",
-#          "period": 10
-#          },                      
-#         {
-#          "url": "http://games.sina.com.cn/y/",
-#          "extractor": SinaExtractorGame,
-#          "tag":"sina",
-#          "sub_tag":"play",
-#          "period": 10
-#          },     
-#  
-#         {
-#         "url": "http://api.g.sina.com.cn/pgame/get_kan_news_index/?index=1",
-#         "extractor": SinaExtractorGamer,
-#         "tag":"sina",
-#         "sub_tag":"play",
-#         "period": 10
-#         },     
-#              
-#         {
-#         "url": "http://kf.games.sina.com.cn/dianwan/dianwan/iframe_hot_news",
-#         "extractor": SinaExtractorGameTV,
-#         "tag":"sina",
-#         "sub_tag":"play",
-#         "period": 10
-#         },    
-#         {
-#         "url": "http://games.sina.com.cn/newgame/",
-#         "extractor": SinaExtractorNewGame,
-#         "tag":"sina",
-#         "sub_tag":"play",
-#         "period": 10
-#         },     
-# 
-#         {
-#         "url": "http://www.chinanews.com/importnews.html",
-#         "extractor": ChinaNewsExtractor,
-#         "tag":"chinanews",
-#         "sub_tag":"yaowen",
-#         "period": 10
-#         },     
-#                                         {
-#          "url": "http://www.chinanews.com/china.shtml",
-#          "extractor": ChinaNewsExtractor,
-#          "tag":"chinanews",
-#          "sub_tag":"domestic",
-#          "period": 10
-#          },     
-#                                         {
-#          "url": "http://www.chinanews.com/world/",
-#          "extractor": ChinaNewsExtractor,
-#          "tag":"chinanews",
-#          "sub_tag":"world",
-#          "period": 10
-#          },     
-#                                         {
-#          "url": "http://www.chinanews.com/society.shtml",
-#          "extractor": ChinaNewsExtractor,
-#          "tag":"chinanews",
-#          "sub_tag":"shehui",
-#          "period": 10
-#          },     
-#                                         {
-#          "url": "http://www.chinanews.com/sports.shtml",
-#          "extractor": ChinaNewsExtractor,
-#          "tag":"chinanews",
-#          "sub_tag":"sport",
-#          "period": 10
-#          },     
-#          {
-#          "url": "http://www.chinanews.com/mil/news.shtml",
-#          "extractor": ChinaNewsExtractor,
-#          "tag":"chinanews",
-#          "sub_tag":"mili",
-#          "period": 10
-#          },     
-#         {
-#          "url": "http://www.chinanews.com/it/news.shtml",
-#          "extractor": ChinaNewsExtractor,
-#          "tag":"chinanews",
-#          "sub_tag":"tech",
-#          "period": 10
-#          },     
-#         {
-#          "url": "http://www.chinanews.com/entertainment.shtml",
-#          "extractor": ChinaNewsExtractor,
-#          "tag":"chinanews",
-#          "sub_tag":"yule",
-#          "period": 10
-#          },     
+         {
+          "url": "http://news.163.com/world/",
+          "extractor": NetEaseExtractor,
+          "tag":"163",
+          "sub_tag":"world",
+          "period": 10
+          },
+                                    
+         {
+          "url": "http://news.163.com/domestic/",
+          "extractor": NetEaseExtractorA,
+          "tag":"163",
+          "sub_tag":"domestic",
+          "period": 10
+          },
+                                    
+         {
+          "url": "http://news.163.com/shehui/",
+          "extractor": NetEaseExtractorA,
+          "tag":"163",
+          "sub_tag":"shehui",
+          "period": 10
+          },
+    
+         {
+          "url": "http://tech.163.com/latest",
+          "extractor": NetEaseExtractorTech,
+          "tag":"163",
+          "sub_tag":"tech",
+          "period": 10
+          },
+   
+          {
+          "url": "http://play.163.com/",
+          "extractor": NetEaseExtractorPlay,
+          "tag":"163",
+          "sub_tag":"play",
+          "period": 10
+          },
+   
+          {
+          "url": "http://war.163.com/special/millatestnews/",
+          "extractor": NetEaseExtractorMili,
+          "tag":"163",
+          "sub_tag":"mili",
+          "period": 10
+          },
+                                 
+          {
+          "url": "http://ol.gamersky.com/",
+          "extractor": YouminExtractor,
+          "tag":"youmin",
+          "sub_tag":"online",
+          "period": 10
+          },
+                                
+         {
+          "url": "http://www.gamersky.com/pcgame/",
+          "extractor": YouminExtractor,
+          "tag":"youmin",
+          "sub_tag":"pcgame",
+          "period": 10
+          },
+                                
+         {
+          "url": "http://tv.gamersky.com/",
+          "extractor": YouminExtractor,
+          "tag":"youmin",
+          "sub_tag":"tvgame",
+          "period": 10
+          },
+  
+        {
+         "url": "http://roll.news.sina.com.cn/s/channel.php?ch=01#col=90&spec=&type=&ch=01&k=&offset_page=0&offset_num=0&num=80&asc=&page=1",
+         "extractor": SinaExtractorRoll,
+         "tag":"sina",
+         "sub_tag":"domestic",
+         "period": 10
+         },
+                                 
+        {
+         "url": "http://roll.news.sina.com.cn/s/channel.php?ch=01#col=91&spec=&type=&ch=01&k=&offset_page=0&offset_num=0&num=80&asc=&page=1",
+         "extractor": SinaExtractorRoll,
+         "tag":"sina",
+         "sub_tag":"world",
+         "period": 10
+         },
+                                 
+        {
+         "url": "http://roll.news.sina.com.cn/s/channel.php?ch=01#col=92&spec=&type=&ch=01&k=&offset_page=0&offset_num=0&num=80&asc=&page=1",
+         "extractor": SinaExtractorRoll,
+         "tag":"sina",
+         "sub_tag":"shehui",
+         "period": 10
+         },
+   
+        {
+         "url": "http://roll.news.sina.com.cn/s/channel.php?ch=01#col=93&spec=&type=&ch=01&k=&offset_page=0&offset_num=0&num=80&asc=&page=1",
+         "extractor": SinaExtractorRoll,
+         "tag":"sina",
+         "sub_tag":"mili",
+         "period": 10
+         },            
+  
+         {
+          "url": "http://roll.news.sina.com.cn/s/channel.php?ch=01#col=94&spec=&type=&ch=01&k=&offset_page=0&offset_num=0&num=80&asc=&page=1",
+          "extractor": SinaExtractorRoll,
+          "tag":"sina",
+          "sub_tag":"sport",
+          "period": 10
+          },
+                                 
+         {
+          "url": "http://roll.news.sina.com.cn/s/channel.php?ch=01#col=95&spec=&type=&ch=01&k=&offset_page=0&offset_num=0&num=80&asc=&page=1",
+          "extractor": SinaExtractorRoll,
+          "tag":"sina",
+          "sub_tag":"yule",
+          "period": 10
+          },
+         {
+         "url": "http://roll.news.sina.com.cn/s/channel.php?ch=01#col=96&spec=&type=&ch=01&k=&offset_page=0&offset_num=0&num=80&asc=&page=1",
+         "extractor": SinaExtractorRoll,
+         "tag":"sina",
+         "sub_tag":"tech",
+         "period": 10
+         },                      
+        {
+         "url": "http://games.sina.com.cn/y/",
+         "extractor": SinaExtractorGame,
+         "tag":"sina",
+         "sub_tag":"play",
+         "period": 10
+         },     
+  
+        {
+        "url": "http://api.g.sina.com.cn/pgame/get_kan_news_index/?index=1",
+        "extractor": SinaExtractorGamer,
+        "tag":"sina",
+        "sub_tag":"play",
+        "period": 10
+        },     
+              
+        {
+        "url": "http://kf.games.sina.com.cn/dianwan/dianwan/iframe_hot_news",
+        "extractor": SinaExtractorGameTV,
+        "tag":"sina",
+        "sub_tag":"play",
+        "period": 10
+        },    
+        {
+        "url": "http://games.sina.com.cn/newgame/",
+        "extractor": SinaExtractorNewGame,
+        "tag":"sina",
+        "sub_tag":"play",
+        "period": 10
+        },     
+ 
+        {
+        "url": "http://www.chinanews.com/importnews.html",
+        "extractor": ChinaNewsExtractor,
+        "tag":"chinanews",
+        "sub_tag":"yaowen",
+        "period": 10
+        },     
+                                        {
+         "url": "http://www.chinanews.com/china.shtml",
+         "extractor": ChinaNewsExtractor,
+         "tag":"chinanews",
+         "sub_tag":"domestic",
+         "period": 10
+         },     
+                                        {
+         "url": "http://www.chinanews.com/world/",
+         "extractor": ChinaNewsExtractor,
+         "tag":"chinanews",
+         "sub_tag":"world",
+         "period": 10
+         },     
+                                        {
+         "url": "http://www.chinanews.com/society.shtml",
+         "extractor": ChinaNewsExtractor,
+         "tag":"chinanews",
+         "sub_tag":"shehui",
+         "period": 10
+         },     
+                                        {
+         "url": "http://www.chinanews.com/sports.shtml",
+         "extractor": ChinaNewsExtractor,
+         "tag":"chinanews",
+         "sub_tag":"sport",
+         "period": 10
+         },     
+         {
+         "url": "http://www.chinanews.com/mil/news.shtml",
+         "extractor": ChinaNewsExtractor,
+         "tag":"chinanews",
+         "sub_tag":"mili",
+         "period": 10
+         },     
+        {
+         "url": "http://www.chinanews.com/it/news.shtml",
+         "extractor": ChinaNewsExtractor,
+         "tag":"chinanews",
+         "sub_tag":"tech",
+         "period": 10
+         },     
+        {
+         "url": "http://www.chinanews.com/entertainment.shtml",
+         "extractor": ChinaNewsExtractor,
+         "tag":"chinanews",
+         "sub_tag":"yule",
+         "period": 10
+         },     
                                
         {
          "url": "http://china.huanqiu.com/article/",
